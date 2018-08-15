@@ -1,0 +1,335 @@
+
+
+
+
+
+	output['ouyeel_bzj_url'] = get_sys_settings('OUYEEL_RZ_V3_SETTING')['ouyeel_bzj_url'] //补缴保证金
+	
+	uat:http://uatrz.shdongchan.com/oyrz_finance_web/financing/capitalRepaymentDetail?applicationId
+
+	生产：http://rz.ouyeelf.com/oyrz_finance_web/financing/capitalRepaymentDetail?applicationId
+
+	北京银行年化利率,监管费年利率
+	
+	
+	
+	    // 接受物流审核结果 开始
+//        /////// 不要提交
+//        BaseCommand baseCommand = new BaseCommand();
+//        baseCommand.setUserClientIp(originateLoanCommand.getUserClientIp());
+//        baseCommand.setCommandSiteCode(originateLoanCommand.getCommandSiteCode());
+//        baseCommand.setCommandUserId(originateLoanCommand.getCommandUserId());
+//        //requestType - userId
+//        //jsonObject - providerCode
+//
+//        com.baosight.shgt.service.resources.api.command.BytCheckRRequestCommand iii = new com.baosight.shgt.service.resources.api.command.BytCheckRRequestCommand();
+//        BytCheckRRequestCommand sss = new BytCheckRRequestCommand();
+//        List<BytCheckRRequestCommand.EachRCheckBean> rrr = new ArrayList<>();
+//        BytCheckRRequestCommand.EachRCheckBean ddd = new BytCheckRRequestCommand.EachRCheckBean();
+//        ddd.setCheckOrderNo("R18052500003");
+//        ddd.setCheckResult(1);
+//        List<BytCheckRRequestCommand.EachRCheckPacksListBean> ccc = new ArrayList<>();
+//        BytCheckRRequestCommand.EachRCheckPacksListBean eee = new BytCheckRRequestCommand.EachRCheckPacksListBean();
+//        eee.setCheckMemo("");
+//        eee.setCheckResultId(1);
+//        eee.setPackNum("R180523003");
+//        eee.setResourceNum("R180523003");
+//        ccc.add(eee);
+//        ddd.setPacksList(ccc);
+//        rrr.add(ddd);
+//        sss.setEachRCheckBeans(rrr);
+//
+//        originateLoanCommand.setUserId("CheckOrderResult");
+//        originateLoanCommand.setProviderCode(JSONObject.toJSONString(sss));
+//        BytCheckRResponseBean a = iResourceLoanService.receiveWarehouseCheckResult(originateLoanCommand.getUserId(), originateLoanCommand.getProviderCode(), baseCommand);
+//        return null;
+//        /////// 接受物流审核结果 结束
+
+
+//
+//        //接受金服审核结果 开始
+//        ReceiveLoanResultRequestBean receiveLoanResultRequestBean = new ReceiveLoanResultRequestBean();
+//        BaseCommand baseCommand = new BaseCommand();
+//        baseCommand.setCommandSiteCode(originateLoanCommand.getCommandSiteCode());
+//        baseCommand.setCommandUserId(originateLoanCommand.getCommandUserId());
+//        baseCommand.setUserClientIp(originateLoanCommand.getUserClientIp());
+//        List<ReceiveLoanResultRequestBean.ReceiveLoanResultDetail> list = new ArrayList<>();
+//        ReceiveLoanResultRequestBean.ReceiveLoanResultDetail aa = new ReceiveLoanResultRequestBean.ReceiveLoanResultDetail();
+//
+//        aa.setBusinessId("R18052500003");
+//        aa.setGoodsAmt("1867.8");
+//        aa.setGoodsPrice("566");
+//        aa.setLoanContractNo("SCGF180500001-JK035");
+//        aa.setNet_weight(null);
+//        aa.setWproviderId("F1000639");
+//        aa.setRefuseReason("");
+//        aa.setPutin_qty(null);
+//        aa.setProductId("TL10");
+//        aa.setPackageStatus("05");
+//        aa.setPackageId("R180523003");
+//        list.add(aa);
+//
+//        receiveLoanResultRequestBean.setBusinessId("R18052500003");
+//        receiveLoanResultRequestBean.setGoodsMoney("1867.8");
+//        receiveLoanResultRequestBean.setLoanAmt("1307");
+//        receiveLoanResultRequestBean.setLoanBeginDate("2018-05-25");
+//        receiveLoanResultRequestBean.setLoanContractNo("SCGF180500001-JK035");
+//        receiveLoanResultRequestBean.setLoanEndDate("2018-08-23");
+//        receiveLoanResultRequestBean.setLoanRate("0.08");
+//        receiveLoanResultRequestBean.setLoanResult("3");
+//        receiveLoanResultRequestBean.setLoanResultDesc("");
+//        receiveLoanResultRequestBean.setPledgeRate("0.7");
+//        receiveLoanResultRequestBean.setRedeemAmt("1307.00");
+//        receiveLoanResultRequestBean.setDetail(list);
+//        iResourceLoanService.receiveLoanResult(receiveLoanResultRequestBean, baseCommand);
+//        return null;
+//        //接受金服审核结果 结束
+
+
+@RequestMapping("/aaaaaa")
+    @ResponseBody
+    public Map<String, Object> aaaaaa(HttpServletRequest request) throws Exception {
+        OriginateLoanCommand originateLoanCommand = new OriginateLoanCommand();
+        originateLoanCommand.setCommandSiteCode(DomainHolder.getSiteCode());
+        originateLoanCommand.setCommandUserId(CurrentUserUtil.getCurrentUserCompanyCode());
+        originateLoanCommand.setUserClientIp(DomainHolder.getClientIpAddress());
+        greenLoan.originateLoan(originateLoanCommand);
+        return null;
+    }
+	
+	
+	
+
+
+https://segmentfault.com/a/1190000013341344
+
+
+
+
+
+		  
+		  
+		  ProviderLoanMain param = new ProviderLoanMain();
+            param.setStatus(Long.valueOf(91));
+            ProviderLoanMainExample example = new ProviderLoanMainExample();
+            ProviderLoanMainExample.Criteria criteria = example.createCriteria();
+            criteria.andLoanCodeEqualTo(loanRCode);
+            int count = greenLoneDaoService.updateTZyLoanPack(param,example);
+            if(count != 1){
+                throw new Exception("实捆包发起融资更新主表异常");
+            }
+			
+			
+			   ProviderLoanMainExample example = new ProviderLoanMainExample();
+        ProviderLoanMainExample.Criteria  criteria= example.createCriteria();
+        
+        List<ProviderLoanMain> tZyLoanPacks = greenLoneDaoService.selectTZyLoanPack(example);
+		
+		ProviderLoanDetailExample detailExample = new ProviderLoanDetailExample();
+        ProviderLoanDetailExample.Criteria detailCriteria = detailExample.createCriteria();
+		
+        List<ProviderLoanDetail> tZyLoanPackdetails = greenLoneDaoService.selectTZyLoanPackDetail(detailExample);
+
+greenLoneDaoService.insertTZyLoanPackSelective(param);
+
+
+ProviderLoanDetail param = new ProviderLoanDetail();
+ProviderLoanDetailExample example = new ProviderLoanDetailExample();
+ProviderLoanDetailExample.Criteria criteria = example.createCriteria();
+
+int count = greenLoneDaoService.updateTZyLoanPackdetail(param, example);
+if(count != 1){
+	throw new Exception("仓库反馈的实捆包审核结果更新明细表异常");
+}
+
+
+ProviderLoanMainExample example = new ProviderLoanMainExample();
+                        ProviderLoanMainExample.Criteria  criteria= example.createCriteria();
+                        criteria.andLoanCodeEqualTo(loanCode);
+                        List<ProviderLoanMain> tZyLoanPacks = greenLoneDaoService.selectTZyLoanPack(example);
+                        ProviderLoanMain loanPack = tZyLoanPacks.get(0);
+						
+						
+						{{ if d.loanType == 1 }}
+                        <!-- 逾期  到期日期比系统日期小 且未还款-->
+                        {{ if d.status == 8 && d.loanStatus == 1  &&  ! d.repayDate }} <span style="color:red">已逾期</span>
+                        {{ else if d.goodsprice < 0.01 && d.bankCode == "OYBANK" }}
+                        <span style="color:red">已驳回</span>
+                        {{ else if  d.freviewStatus == 2  && d.bankCode == "BJBANK" }}
+                        <span style="color:red">已驳回</span>
+                        {{ else if d.loanStatus == 1  &&  ! d.repayDate }} 未还款
+                        {{ else if d.repayDate }}
+                        {{ if d.bankCode == "OYBANK" }}
+                        <span style="color:#00DD00">已还款</span>
+                        {{ else if d.bankCode == "BJBANK" }}
+                        {{ if d.jgfStatus == 0 }}
+                        <span style="color:#00DD00">已还款<br><span style="color:#ff0000">未付监管费</span>
+                                {{ else if d.jgfStatus == 1 }}
+                                    <span style="color:#00DD00">已还款<br>已付监管费</span>
+                                {{ /if }}
+                             {{ /if }}
+                        {{ else }}
+                            未还款
+                        {{/if}}
+
+                    {{ else if d.loanType == 2 }}
+                        {{if d.isOffline == 1  || d.redemptionDatetime || d.redemptionStatus == 2 }} <span style="color:#00DD00">已还款</span>
+                        {{ else if d.goodsprice < 0.01 }}   <span style="color:red">已驳回</span>
+                        {{ else if d.status == 8 && d.loanStatus == 1 }}  <span style="color:red">已逾期</span>
+                        {{ else }}
+                            未还清
+                        {{ /if }}
+
+                    {{ /if }}
+                            <em class=" tooltip_binding icon-shenglve iconfont" href="javascript:void(0);" data-packid="{{d.loanpackDetailId}}"> </em>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							{{ if d.loanType == 1 }}
+                        <!-- 逾期  到期日期比系统日期小 且未还款-->
+                        {{ if d.status == 8 && d.loanStatus == 1  &&  ! d.repayDate }} <a href="javascript:void(0);" name="repayBtn"  data-bankcode="{{d.bankCode}}"  data-id={{d.loanpackDetailId}}   >去还款</a>
+                        {{ else if d.loanStatus == 1  &&  ! d.repayDate }} <a href="javascript:void(0);" class="repayBtn"  data-bankcode="{{d.bankCode}}"  data-id={{d.loanpackDetailId}} >去还款</a>
+                        {{ else if d.repayDate }}
+                        {{ if d.bankCode == "OYBANK" }}
+                        {{ else if d.bankCode == "BJBANK" }}
+                        {{ if d.jgfStatus == 0 }}
+                        <a href="javascript:void(0);" class="repayJgf" data-id={{d.loanpackDetailId}}>支付监管费</a>
+                                {{ else if d.jgfStatus == 1 }}
+                                {{ /if }}
+                             {{ /if }}
+
+                        {{ else if d.goodsprice < 0.01 && d.bankCode == "OYBANK" }}
+                        {{ else if  d.freviewStatus == 2  && d.bankCode == "BJBANK" }}
+                        {{ else }}
+                        <a href="javascript:void(0);" class="repayBtn"  data-bankcode="{{d.bankCode}}"  data-id={{d.loanpackDetailId}} >去还款</a>
+                        {{/if}}
+
+                    {{ else if d.loanType == 2 }}
+                        {{if d.isOffline == 1  || d.redemptionDatetime || d.redemptionStatus == 2 }}
+                        {{ else if d.goodsprice < 0.01 }}
+                        {{ else if d.status == 8 && d.loanStatus == 1 }}  <a href="javascript:void(0);" name="repayBtn"  data-bankcode="{{d.bankCode}}"  data-id={{d.loanpackDetailId}} >去还款</a>
+                        {{ else }}
+                        <a href="javascript:void(0);" class="repayBtn"  data-bankcode="{{d.bankCode}}"  data-id={{d.loanpackDetailId}} >去还款</a>
+                        {{ /if }}
+
+                    {{ /if }}
+					
+					
+					
+					 List<String> pack_code_list= new ArrayList<>();
+            List<String> error_pack_code_list= new ArrayList<>();
+            switch (request.getLoanResult()){
+                case LoanStatusConstants.ReceiveLoanResult.LOAN_FAIL_CALL.getValue():
+                    fail(loanMains.get(0),request, baseCommand);
+                    break;
+                case "":
+                    success(loanMains.get(0),request, baseCommand);
+                    break;
+                case "2":
+                  //  欧冶供应商融资改造 更新状态
+                    Long loanId = loanMains.get(0).getLoanpackId();
+                    if (loanId == null){
+                        throw new Exception("融资单主表ID不能为空");
+                    }
+
+                    for(ReceiveLoanResultRequestBean.ReceiveLoanResultDetail receiveLoanResultDetail : request.getDetail()){
+                        if (LoanStatusConstants.PackageStatus.ONPLEDGE.getValue().equals(receiveLoanResultDetail.getPackageStatus())){
+                            pack_code_list.add(receiveLoanResultDetail.getPackageId());
+                        }else{
+                            error_pack_code_list.add(receiveLoanResultDetail.getPackageId());
+                        }
+                    }
+                    ProviderLoanDetailExample detailExample = new ProviderLoanDetailExample();
+                    detailExample.createCriteria().andLoanpackIdEqualTo(loanId).andPackCodeIn(pack_code_list);
+                    List<ProviderLoanDetail> providerLoanDetails = greenLoneDaoService.selectTZyLoanPackDetail(detailExample);
+                    List<Long> loanpackDetailSuccessIds = new ArrayList<>();
+                    if (CollectionUtils.isEmpty(providerLoanDetails)){
+                        throw new Exception("融资单明细不能为空");
+                    }
+                    for (ProviderLoanDetail providerLoanDetail : providerLoanDetails) {
+                        loanpackDetailSuccessIds.add(providerLoanDetail.getLoanpackDetailId());
+                    }
+                    if (!CollectionUtils.isEmpty(loanpackDetailSuccessIds)){
+                        ProviderLoanDetail detail = new ProviderLoanDetail.Builder()
+                                .withFReviewStatus(LoanStatusConstants.FReviewStatus.SUCCESS.getValue())
+                                .withFReviewDate(now).build();
+                        ProviderLoanDetailExample detailExampleNew = new ProviderLoanDetailExample();
+                        detailExampleNew.createCriteria().andLoanpackDetailIdIn(loanpackDetailSuccessIds);
+                        int successCounts = greenLoneDaoService.updateTZyLoanPackdetail(detail, detailExampleNew);
+                        logger.info("实捆包金服审核结果回调处理更新明细成功的条数:{}",successCounts);
+                    }
+
+                    //同一融资主表id下其余的捆包就是金融驳回的，更新成金融驳回状态
+                    ProviderLoanDetailExample detailExampleNew2 = new ProviderLoanDetailExample();
+                    detailExampleNew2.createCriteria().andLoanpackIdEqualTo(loanId).andFReviewStatusEqualTo(LoanStatusConstants.FReviewStatus.WAIT.getValue());
+                    List<ProviderLoanDetail> failList = greenLoneDaoService.selectTZyLoanPackDetail(detailExampleNew2);
+                    logger.info("查出来的不成功列表：{}", JSONObject.toJSONString(failList));
+                    if (!CollectionUtils.isEmpty(failList)){
+                        List<TZyLoanPackdetail> loanPackDetailFailList = new ArrayList<>();
+                        List<Long> loanpackDetailFailIds = new ArrayList<>();
+                        for(ProviderLoanDetail item : failList){
+                            loanpackDetailFailIds.add(item.getLoanpackDetailId());
+    //                        TZyLoanPackdetail tZyLoanPackdetail = new TZyLoanPackdetail();
+    //                        BeanUtils.copyProperties(item,tZyLoanPackdetail);
+                            String jsonString = JSON.toJSONString(item);
+                            TZyLoanPackdetail tZyLoanPackdetail = JSONObject.parseObject(jsonString, TZyLoanPackdetail.class);
+                            loanPackDetailFailList.add(tZyLoanPackdetail);
+                        }
+                        ProviderLoanDetail detail = new ProviderLoanDetail.Builder()
+                                .withFReviewStatus(LoanStatusConstants.FReviewStatus.FAIL.getValue())
+                                .withFReviewDate(now)
+                                .withPackId(0L).build();//packId必须设置才能保证资源下次能发起融资
+                        ProviderLoanDetailExample detailExampleNew3 = new ProviderLoanDetailExample();
+                        detailExampleNew3.createCriteria().andLoanpackDetailIdIn(loanpackDetailFailIds);
+                        int count = greenLoneDaoService.updateTZyLoanPackdetail(detail,detailExampleNew3);
+                        logger.info("查出来的不成功列表更新条目：{}", count);
+                        //资源回滚
+                        logger.info("realBaleFinanceCallback传入:{},{}", JSONObject.toJSONString(loanPackDetailFailList), JSONObject.toJSONString(baseCommand));
+                        _morgage_apply(null, loanPackDetailFailList, "3", baseCommand);
+                        logger.info("realBaleFinanceCallback结束");
+                    }
+                    break;
+                case "3":
+                    repay(loanMains.get(0),request, baseCommand);
+                    break;
+                case "4":
+                    for(ReceiveLoanResultRequestBean.ReceiveLoanResultDetail item : request.getDetail()){
+                        pack_code_list.add(item.getPackageId());
+                    }
+                    ProviderLoanDetailExample detailExample1 = new ProviderLoanDetailExample();
+                    detailExample1.createCriteria().andLoanpackIdEqualTo(loanPackId).andPackCodeIn(pack_code_list);
+                    List<ProviderLoanDetail> providerLoanDetails2 = greenLoneDaoService.selectTZyLoanPackDetail(detailExample1);
+                    List<Long> needUpdateList = new ArrayList<>();
+                    providerLoanDetails2.forEach(x->{
+                        if(ObjectUtils.isEmpty(x.getLoanConfirmDate()) && StringUtils.isEmpty(x.getLoanConfirmStatus())){
+                            needUpdateList.add(x.getLoanpackDetailId());
+                        }
+                    });
+                    ProviderLoanDetail buildNew = new ProviderLoanDetail.Builder()
+                            .withLoanConfirmStatus(LoanStatusConstants.LoanConfirmStatus.SUCCESS.getValue())
+                            .withLoanConfirmDate(now).build();
+                    ProviderLoanDetailExample detailExampleNew = new ProviderLoanDetailExample();
+                    detailExampleNew.createCriteria().andLoanpackDetailIdIn(needUpdateList);
+                    int count = greenLoneDaoService.updateTZyLoanPackdetail(buildNew, detailExampleNew);
+                    logger.info("实捆包 放款确认回调-更新明细条数:{}",count);
+                    break;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+	
